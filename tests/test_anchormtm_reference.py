@@ -4,7 +4,7 @@ import sys
 import unittest
 from unittest.mock import patch
 import numpy as np
-sys.path[:0] = [str(Path(__file__).resolve().parents[1]/'analysis')]
+sys.path[:0] = [str(Path(__file__).resolve().parents[1]/'experiments/analysis')]
 import general_method as gm
 from anchormtm import solve_anchored_sequence
 from rgmtm.error_budget import Parameters, InfeasibleLayout

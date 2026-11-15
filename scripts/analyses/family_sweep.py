@@ -28,8 +28,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT), str(ROOT / "src")]
 import anchormtm_paths as AP
-from experiments.metrics_n1c.run import score
-from experiments.order_layout.run import TIE
+from experiments.support.metrics_n1c.run import score
+from experiments.support.order_layout.run import TIE
 from rgmtm.framework import interval_costs
 from rgmtm.interval_order import width_order
 from rgmtm.order_certificate import budget_order

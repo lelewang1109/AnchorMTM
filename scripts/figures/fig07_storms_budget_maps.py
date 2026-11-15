@@ -3,7 +3,7 @@
 The five AnchorMTM maps are the rendered images in results/storms_event/assets/; the TMTM and ST-MTM maps come from
 results/storms_event/baseline_maps.npz (window 355-460, common scale -35 to 35 hPa).
 The paper figure itself, with its layout, tracked-feature curves and insets, was finished by hand in
-figures_src/editable/fig07_storms_budget_maps.pptx; east_arrows.py builds it from that export.
+data/figures/editable/fig07_storms_budget_maps.pptx; east_arrows.py builds it from that export.
 Run:  python scripts/figures/fig07_storms_budget_maps.py      Output: output/figures/anchor_storms_budget_maps_panels.{pdf,png,svg}
 """
 import sys as _sys

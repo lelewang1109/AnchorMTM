@@ -1,6 +1,6 @@
 """Displayed feature positions on Tangaroa and Cylinder (data of Fig. 5).
 
-AnchorMTM, eps in {0, 2, 5, 10, 20}%: rerun of experiments/frontier/run.py (width-aware orders + capped QP, default
+AnchorMTM, eps in {0, 2, 5, 10, 20}%: rerun of experiments/support/frontier/run.py (width-aware orders + capped QP, default
 configuration), checked against the stored E_pool / E_inf / NMLE_max of figdata/frontier/<name>.json, which equal
 the volumetric budget sweep (results/budget_tradeoff/volume_curve_metrics.csv).
 Native TMTM and ST-MTM: saved anchors of the implementations of the published methods on the same features
@@ -19,7 +19,7 @@ import numpy as np
 
 ROOT = AP.ROOT; CODE = AP.ROOT
 sys.path.insert(0, str(CODE / 'src'))
-spec = importlib.util.spec_from_file_location('frontier_run', CODE / 'experiments/frontier/run.py')
+spec = importlib.util.spec_from_file_location('frontier_run', CODE / 'experiments/support/frontier/run.py')
 fr = importlib.util.module_from_spec(spec); spec.loader.exec_module(fr)
 from rgmtm.order_certificate import budget_order        # noqa: E402
 from rgmtm.interval_order import width_order            # noqa: E402

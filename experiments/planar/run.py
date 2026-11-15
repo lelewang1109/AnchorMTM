@@ -18,25 +18,25 @@ W = AP.ROOT
 O = AP.OUTPUT / "planar"
 C = AP.ROOT
 CORE_FILES = [
-    "analysis/anchormtm.py",
-    "analysis/general_method.py",
+    "experiments/analysis/anchormtm.py",
+    "experiments/analysis/general_method.py",
     "src/rgmtm/unified.py",
     "src/rgmtm/error_budget.py",
     "src/rgmtm/interval_order.py",
     "src/rgmtm/reference_guided.py",
     "src/rgmtm/baselines/stmtm.py",
-    "experiments/stmtm_completion/run.py",
+    "experiments/support/stmtm_completion/run.py",
     "experiments/volume3d/compact_tmtm.py",
     "experiments/planar/conic_qp.py",
 ]
-sys.path[:0] = [str(C), str(C / "src"), str(C / "analysis")]
+sys.path[:0] = [str(C), str(C / "src"), str(C / "experiments/analysis")]
 import anchormtm as am
 from experiments.planar import native_io as native
 import rgmtm.reference_guided as renderer
 from experiments.ring.dataset import generate as ring_generate
 from rgmtm.baselines import stmtm as st
 from experiments.volume3d.compact_tmtm import CompactTMTM
-import experiments.stmtm_completion.run as completion
+import experiments.support.stmtm_completion.run as completion
 from experiments.planar import conic_qp as conic
 from experiments.planar import raster_checked
 from experiments.planar import project_checked

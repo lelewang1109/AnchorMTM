@@ -13,8 +13,8 @@ import importlib.util, json, sys
 from pathlib import Path
 import numpy as np
 ROOT = AP.ROOT; CODE = AP.ROOT
-sys.path[:0] = [str(ROOT), str(CODE / 'src'), str(CODE / 'analysis'), str(CODE)]
-s = importlib.util.spec_from_file_location('metrics_n1c_run', CODE / 'experiments/metrics_n1c/run.py'); nc = importlib.util.module_from_spec(s); s.loader.exec_module(nc)
+sys.path[:0] = [str(ROOT), str(CODE / 'src'), str(CODE / 'experiments/analysis'), str(CODE)]
+s = importlib.util.spec_from_file_location('metrics_n1c_run', CODE / 'experiments/support/metrics_n1c/run.py'); nc = importlib.util.module_from_spec(s); s.loader.exec_module(nc)
 from rgmtm.error_budget import Parameters   # noqa: E402
 out = {}
 for name in nc.PLANAR:

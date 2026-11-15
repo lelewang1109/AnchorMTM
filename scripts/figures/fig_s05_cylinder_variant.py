@@ -1,7 +1,7 @@
 """Figure S5 (Cylinder, central-tree variant): the map and the five snapshots, rendered from results/cylinder_variant/.
 
-The paper version was finished by hand in figures_src/editable/fig_s05_cylinder_variant.pptx (axis label, tick marks and the
-connectors from the time axis to the snapshots); its export, figures_src/fig_s05_cylinder_variant.pdf, is the file used in the paper.
+The paper version was finished by hand in data/figures/editable/fig_s05_cylinder_variant.pptx (axis label, tick marks and the
+connectors from the time axis to the snapshots); its export, data/figures/fig_s05_cylinder_variant.pdf, is the file used in the paper.
 Run:  python scripts/figures/fig_s05_cylinder_variant.py      Output: output/figures/anchor_cylinder_centered_blue_panels.{png,pdf,svg}
 """
 import sys as _sys

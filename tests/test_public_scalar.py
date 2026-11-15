@@ -5,7 +5,7 @@ from unittest.mock import patch
 import numpy as np
 from netCDF4 import Dataset,date2num
 from datetime import datetime,timedelta
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'analysis'))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'experiments/analysis'))
 import public_scalar as ps
 from dataset_suite import PAPER_DATASETS,REAL_DATASETS
 

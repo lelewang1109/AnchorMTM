@@ -13,7 +13,7 @@ import numpy as np
 from scipy.optimize import milp,Bounds,LinearConstraint,linprog,minimize
 from scipy.sparse import coo_matrix
 from rgmtm.error_budget import constraints
-from analysis.certificate_core import order_tau
+from experiments.analysis.certificate_core import order_tau
 
 
 def leaves(tree):

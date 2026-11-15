@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 import unittest
 import numpy as np
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'analysis'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'experiments/analysis'))
 from result_tables import position_metrics
 
 

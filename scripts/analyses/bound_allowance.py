@@ -2,7 +2,7 @@
 
 Exact Mode allows merge error eta = eps0 * range (eps0 = 1e-7). The tight order bound for
 that class is max(Theorem B, Theorem C) at eta, i.e. the ``lower`` of ``budget_order`` at
-budget 0 and tie eps0. The stored ``nu_mean`` of the direction sweep (experiments/reference_direction) uses Theorem B
+budget 0 and tie eps0. The stored ``nu_mean`` of the direction sweep (experiments/support/reference_direction) uses Theorem B
 alone (``certificate(..., tie)`` flattens every gap <= 2 tie), which is valid but not attained
 on two Cylinder frames (58, 62). This script recomputes the 400-direction sweep with the tight bound,
 reading the experiment code without changing it.
@@ -24,7 +24,7 @@ ROOT = AP.ROOT; CODE = AP.ROOT
 sys.path.insert(0, str(CODE / 'src'))
 from rgmtm.order_certificate import certificate, chain_certificate
 
-spec = importlib.util.spec_from_file_location('refdir_run', CODE / 'experiments/reference_direction/run.py')
+spec = importlib.util.spec_from_file_location('refdir_run', CODE / 'experiments/support/reference_direction/run.py')
 rd = importlib.util.module_from_spec(spec); spec.loader.exec_module(rd)
 n1 = rd.n1
 OUT = AP.FIGDATA / 'bound_allowance20261105'
@@ -81,7 +81,7 @@ def cylinder_frames():
     enumerating those orders and keeping the ones with merge cost <= tie gives the true optimum."""
     import math
     from itertools import permutations, product
-    sys.path.insert(0, str(CODE / 'experiments/order_budget'))
+    sys.path.insert(0, str(CODE / 'experiments/support/order_budget'))
     import run as ob
     from rgmtm.order_certificate import hierarchy, _flattened_children, order_errors, order_error, budget_order, midpoint_order
     from rgmtm.framework import merge_costs

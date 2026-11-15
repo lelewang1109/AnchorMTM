@@ -16,6 +16,7 @@ OUTPUT = Path(os.environ.get('ANCHORMTM_OUTPUT', ROOT / 'output'))
 TTK_BIN = Path(os.environ.get('ANCHORMTM_TTK_BIN', ROOT / 'tmp/volume3d/native-build/rgmtm_ttk_volume'))
 
 FIGDATA = RESULTS / 'figdata'
+FIGURE_SOURCES = ROOT / 'data' / 'figures'
 FIGURES_OUT = OUTPUT / 'figures'
 TABLES_OUT = OUTPUT / 'tables'
 for _d in (FIGURES_OUT, TABLES_OUT, OUTPUT / 'preview'):

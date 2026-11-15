@@ -12,7 +12,7 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 
 ROOT=Path(__file__).resolve().parents[2]
-sys.path[:0]=[str(ROOT),str(ROOT/'src'),str(ROOT/'analysis')]
+sys.path[:0]=[str(ROOT),str(ROOT/'src'),str(ROOT/'experiments/analysis')]
 from experiments.volume3d.prepare import sha256
 from experiments.volume3d.prepare_tangaroa_paper import OUT as DATA,save
 from experiments.volume3d.paper_trees import Frame,features,TREES,SHAPE,BOUNDS,SAMPLE_MEASURE
@@ -143,7 +143,7 @@ def run(out=OUT,indices=range(201)):
     out=Path(out);out.mkdir(parents=True,exist_ok=True);indices=list(indices)
     if indices!=list(range(indices[0],indices[-1]+1)):raise ValueError('this run requires consecutive source indices')
     source_files=[Path(__file__),Path(sl.__file__),Path(__file__).with_name('compact_tmtm.py'),Path(__file__).with_name('paper_trees.py'),
-        ROOT/'src/rgmtm/reference_guided.py',ROOT/'src/rgmtm/error_budget.py',ROOT/'src/rgmtm/baselines/stmtm.py',ROOT/'analysis/filling.py',ROOT/'analysis/relax_hierarchy.py']
+        ROOT/'src/rgmtm/reference_guided.py',ROOT/'src/rgmtm/error_budget.py',ROOT/'src/rgmtm/baselines/stmtm.py',ROOT/'experiments/analysis/filling.py',ROOT/'experiments/analysis/relax_hierarchy.py']
     source_hashes={str(p.relative_to(ROOT)):sha256(p) for p in source_files}
     protocol=dict(requested_indices=indices,requested_frames=len(indices),original_grid_xyz=[300,180,120],
         preprocessing='official velocity magnitude, abs(v)<1e-6 -> 1, clip [0,2], TTK 0.9.9 legacy scalar simplification at absolute 0.2',

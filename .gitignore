@@ -8,6 +8,8 @@ __pycache__/
 data/*
 !data/README.md
 !data/source_sha256.txt
+!data/figures/
+/AnchorMTM-supplementary-video.mp4
 *.egg-info/
 /build/
 /results/volume3d/

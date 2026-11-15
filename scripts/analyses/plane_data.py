@@ -9,7 +9,7 @@ Order model (NROE), the only fidelity in which every compared map can be measure
   optimum      exact optimum by enumeration of all leaf orders on frames with at most 8 leaves,
                compared frame by frame with the construction at every grid allowance.
   check        the saved order_budget20261027 sweep is reproduced (tie = 1e-7, nine allowances).
-Experiment code and saved results are only read. Inputs: results/ (as for experiments/order_budget).
+Experiment code and saved results are only read. Inputs: results/ (as for experiments/support/order_budget).
 
 Run:  python scripts/analyses/plane_data.py [Storms ...]   ->  results/figdata/forced_error/<sequence>.json
 """
@@ -23,7 +23,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent; CODE = AP.ROOT
-spec = importlib.util.spec_from_file_location('ob_run', CODE / 'experiments/order_budget/run.py')
+spec = importlib.util.spec_from_file_location('ob_run', CODE / 'experiments/support/order_budget/run.py')
 ob = importlib.util.module_from_spec(spec); spec.loader.exec_module(ob)       # adds code/src to sys.path
 from rgmtm.framework import merge_costs
 from rgmtm.order_certificate import certificate, chain_certificate, budget_order, order_errors

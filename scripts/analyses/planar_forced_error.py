@@ -17,7 +17,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent; CODE = AP.ROOT
-spec = importlib.util.spec_from_file_location('ob_run', CODE / 'experiments/order_budget/run.py')
+spec = importlib.util.spec_from_file_location('ob_run', CODE / 'experiments/support/order_budget/run.py')
 ob = importlib.util.module_from_spec(spec); spec.loader.exec_module(ob)
 from rgmtm.framework import merge_costs
 from rgmtm.order_certificate import certificate, chain_certificate, budget_order

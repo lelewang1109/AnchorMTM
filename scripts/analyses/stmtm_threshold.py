@@ -6,7 +6,7 @@ the concordant order almost always; r = 1 takes OLO on every frame. The paper's 
 sequences; the original ST-MTM paper used 0.65 (storms) and 0.85 (wildfires).
 
 This script uses the references, extent and strict bound of the pipeline that produced the native ST-MTM values
-(analysis/misreading.py method_positions, analysis/result_tables.py position_metrics) and recomputes ST-MTM's
+(experiments/analysis/misreading.py method_positions, experiments/analysis/result_tables.py position_metrics) and recomputes ST-MTM's
 order sequence for each r with the same functions (experiments/era5.py run_method, ST-MTM branch). Reported per sequence
 and r: mean NROE and the share not forced by the tree, (NROE - nu*) / NROE, with nu* the strict exact-topology bound.
 
@@ -27,7 +27,7 @@ from pathlib import Path
 import numpy as np
 
 ROOT = AP.ROOT; CODE = AP.ROOT
-sys.path[:0] = [str(CODE), str(CODE / 'src'), str(CODE / 'analysis')]
+sys.path[:0] = [str(CODE), str(CODE / 'src'), str(CODE / 'experiments/analysis')]
 import general_method as gm                                     # noqa: E402
 from experiments import era5 as ep                              # noqa: E402
 from pointcert import tau_pt                                    # noqa: E402

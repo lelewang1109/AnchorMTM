@@ -1,9 +1,9 @@
 """Volume rows of Table 1: reference axes, Exact and Balanced AnchorMTM, TMTM, ST-MTM and 3-D Hilbert/Morton.
 
 Everything uses the experiment code unchanged:
-  layouts   experiments/order_layout/run.py (DATASETS, capped_sequence) with budget_order + width_order, i.e. the
+  layouts   experiments/support/order_layout/run.py (DATASETS, capped_sequence) with budget_order + width_order, i.e. the
             default configuration of the volume rows of Table 1 (same path as metrics_n1c and volume_gallery_data);
-  metrics   experiments/stmtm_completion/run.py geometry() (SNS, TW with k = 1) on the support centroids;
+  metrics   experiments/support/stmtm_completion/run.py geometry() (SNS, TW with k = 1) on the support centroids;
   curves    src/rgmtm/baselines/space_filling.py inverse_order() (canonical 3-D Hilbert/Morton, x fastest);
   bounds    rgmtm.order_certificate.certificate (nu*, strict).
 NPE = mean over frames of max |x - q| / L. Curve positions are rank / (N - 1) on the axis (continuous; no raster rounding).
@@ -28,8 +28,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT), str(ROOT / "src")]
 import anchormtm_paths as AP
-from experiments.order_layout import run as order_layout
-from experiments.stmtm_completion.run import geometry
+from experiments.support.order_layout import run as order_layout
+from experiments.support.stmtm_completion.run import geometry
 from rgmtm.baselines.space_filling import inverse_order
 from rgmtm.error_budget import Parameters
 from rgmtm.interval_order import width_order

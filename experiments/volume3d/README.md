@@ -8,7 +8,7 @@ python -m experiments.volume3d.build_native_ttk
 python -m experiments.volume3d.prepare_tangaroa_paper --workers 6
 python -m experiments.volume3d.paper_trees --threads 6
 python -m experiments.volume3d.run_paper
-python -m experiments.stmtm_completion.run tangaroa
+python -m experiments.support.stmtm_completion.run tangaroa
 ```
 
 `setup_inputs` copies the pinned archive-member inventory. The downloader checks the member sizes and CRCs. The scalar preparation uses the original 300 × 180 × 120 grid and absolute persistence 0.2. The archive, scalar fields and augmented trees require substantial disk space. They are stored beneath `data/real/Tangaroa-FAU/`.

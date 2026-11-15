@@ -12,7 +12,7 @@ import traceback
 import numpy as np
 from scipy.ndimage import gaussian_filter
 ROOT=Path(__file__).resolve().parents[2]
-sys.path[:0]=[str(ROOT),str(ROOT/'src'),str(ROOT/'analysis')]
+sys.path[:0]=[str(ROOT),str(ROOT/'src'),str(ROOT/'experiments/analysis')]
 from experiments import era5 as ep
 from experiments.volume3d.prepare import DATA,sha256
 from rgmtm.baselines import space_filling as sfc
@@ -293,10 +293,10 @@ def run(dataset,out,input_path=None,include_stmtm=False):
     dump(out/'features.json',dict(ids=sc['ids'],tracks=sc['tracks'],boundary=sc['boundary'],tracking=sc['tracking'],
         extrema=ext,centers=sc['centers'],volumes=sc['areas'],references=ref['qs']))
     np.savez_compressed(out/'processed_fields.npz',fields=fields,raw=raw,coords=coords)
-    source_files=[Path(__file__),Path(__file__).with_name('prepare.py'),ROOT/'experiments/era5.py',ROOT/'analysis/general_method.py',
-        ROOT/'analysis/evaluation.py',ROOT/'analysis/relax_hierarchy.py',ROOT/'analysis/conflict_strategies.py',
-        ROOT/'analysis/filling.py',ROOT/'analysis/theory.py',ROOT/'analysis/certificate_core.py',ROOT/'analysis/result_tables.py',
-        ROOT/'analysis/persistence.py',ROOT/'analysis/pointcert.py',ROOT/'src/rgmtm/reference_points.py',
+    source_files=[Path(__file__),Path(__file__).with_name('prepare.py'),ROOT/'experiments/era5.py',ROOT/'experiments/analysis/general_method.py',
+        ROOT/'experiments/analysis/evaluation.py',ROOT/'experiments/analysis/relax_hierarchy.py',ROOT/'experiments/analysis/conflict_strategies.py',
+        ROOT/'experiments/analysis/filling.py',ROOT/'experiments/analysis/theory.py',ROOT/'experiments/analysis/certificate_core.py',ROOT/'experiments/analysis/result_tables.py',
+        ROOT/'experiments/analysis/persistence.py',ROOT/'experiments/analysis/pointcert.py',ROOT/'src/rgmtm/reference_points.py',
         ROOT/'src/rgmtm/baselines/space_filling.py',ROOT/'src/rgmtm/baselines/tmtm.py',ROOT/'src/rgmtm/baselines/stmtm.py',
         ROOT/'src/rgmtm/reference_guided.py',ROOT/'src/rgmtm/error_budget.py']
     if metadata.get('preparation_source'):

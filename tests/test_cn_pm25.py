@@ -4,7 +4,7 @@ import sys,tempfile,unittest
 from unittest.mock import patch
 import numpy as np
 from netCDF4 import Dataset
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import prepare_cn_pm25 as cn
 
 class LocalPM25Contract(unittest.TestCase):

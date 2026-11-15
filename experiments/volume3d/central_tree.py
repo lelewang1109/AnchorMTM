@@ -12,7 +12,7 @@ from scipy import sparse
 from scipy.optimize import linprog
 
 import anchormtm_paths as paths
-from experiments.paper1_suite.run import Frame
+from experiments.grid.run import Frame
 from experiments.volume3d.compact_tmtm import barrier_matrix
 from rgmtm.error_budget import Parameters, constraints
 

@@ -1,4 +1,4 @@
-"""Figure 2 (workflow): export the PowerPoint slide figures_src/editable/fig02_workflow.pptx to PDF and crop it to its content.
+"""Figure 2 (workflow): export the PowerPoint slide data/figures/editable/fig02_workflow.pptx to PDF and crop it to its content.
 
 The slide is drawn by hand. Export it either with LibreOffice (found automatically) or with PowerPoint (File > Save As > PDF) and
 pass the exported PDF:  python scripts/figures/fig02_workflow.py [SLIDE.pdf]
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import anchormtm_paths as AP  # noqa: E402
 from east_arrows import compile_tex  # noqa: E402
 
-SRC = AP.ROOT / 'figures_src'
+SRC = AP.FIGURE_SOURCES
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
         elif shutil.which('soffice'):
             subprocess.run(['soffice', '--headless', '--convert-to', 'pdf', '--outdir', str(d), str(SRC / 'editable' / 'fig02_workflow.pptx')], check=True, capture_output=True)
             (d / 'fig02_workflow.pdf').rename(d / 'fig2_workflow_slide.pdf')
-        else: sys.exit('export figures_src/editable/fig02_workflow.pptx to PDF and pass its path')
+        else: sys.exit('export data/figures/editable/fig02_workflow.pptx to PDF and pass its path')
         shutil.copy(SRC / 'fig02_crop.tex', d / 'fig2_crop.tex')
         compile_tex('fig2_crop.tex', d)
         shutil.copy(d / 'fig2_crop.pdf', AP.FIGURES_OUT / 'anchor_framework.pdf')

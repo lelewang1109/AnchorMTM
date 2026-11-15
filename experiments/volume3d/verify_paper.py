@@ -5,7 +5,7 @@ import argparse,hashlib,json,re,sys,zlib
 import numpy as np
 
 ROOT=Path(__file__).resolve().parents[2]
-sys.path[:0]=[str(ROOT),str(ROOT/'src'),str(ROOT/'analysis')]
+sys.path[:0]=[str(ROOT),str(ROOT/'src'),str(ROOT/'experiments/analysis')]
 from experiments.volume3d.run_paper import OUT,DATA,TREES
 from experiments.volume3d.prepare import sha256
 import theory
@@ -175,7 +175,7 @@ def verify(directory=OUT,raw_inputs=True):
         primary_certificate_max_bracket_width=max_primary_gap,independent_quantized_certificate_checks=quantized_checks,
         all_saved_full_arrays_remeasured=True,tmtm_original_sample_ids_and_declared_virtual_copies_checked=True,
         secondary_global_optimum_claimed=False,verification_source_sha256=sha256(__file__),
-        default_motion_crosscheck=motion_checks,independent_helper_sha256={name:sha256(ROOT/name) for name in ['analysis/evaluation.py','analysis/theory.py']},
+        default_motion_crosscheck=motion_checks,independent_helper_sha256={name:sha256(ROOT/name) for name in ['experiments/analysis/evaluation.py','experiments/analysis/theory.py']},
         manifest_sha256=sha256(directory/'manifest.json'),records=records)
     (directory/'verification.json').write_text(json.dumps(result,indent=2)+'\n')
     print('PASSED',len(indices),'original-resolution frames');return result

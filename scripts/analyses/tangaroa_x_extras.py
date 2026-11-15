@@ -18,7 +18,7 @@ from scipy.optimize import linprog
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT), str(ROOT / "src")]
 import anchormtm_paths as AP
-from experiments.metrics_n1c.run import score
+from experiments.support.metrics_n1c.run import score
 from scripts.analyses import family_sweep, volumes
 
 OUT = AP.OUTPUT / "analyses" / "volumes"

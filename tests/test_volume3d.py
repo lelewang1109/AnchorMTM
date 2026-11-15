@@ -7,7 +7,7 @@ import importlib.util
 import struct
 import zlib
 import numpy as np
-sys.path[:0]=[str(Path(__file__).resolve().parents[1]),str(Path(__file__).resolve().parents[1]/'analysis')]
+sys.path[:0]=[str(Path(__file__).resolve().parents[1]),str(Path(__file__).resolve().parents[1]/'experiments/analysis')]
 from experiments import era5 as ep
 from experiments.volume3d.prepare import q_criterion,read_amira_vector,validate_archive
 from general_method import directional_reference

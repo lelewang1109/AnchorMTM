@@ -1,6 +1,6 @@
 """Render every paper figure in output/figures to a PNG at 600 dpi of its printed width (the files used by the LaTeX source).
 
-Also copies the hand-made Figures S1-S3 and the hand-finished Figure S5 from figures_src/. Needs pdftocairo (poppler).
+Also copies the hand-made Figures S1-S3 and the hand-finished Figure S5 from data/figures/. Needs pdftocairo (poppler).
 Run:  python scripts/figures/export_png.py      Output: output/figures/png/<name>.png
 """
 import shutil, subprocess, sys
@@ -22,11 +22,11 @@ WIDTH = {   # printed width in inches: text width, column width or a fraction of
 
 def main():
     for src, name in HANDMADE.items():
-        shutil.copy(AP.ROOT / 'figures_src' / src, AP.FIGURES_OUT / f'{name}.pdf')
+        shutil.copy(AP.FIGURE_SOURCES / src, AP.FIGURES_OUT / f'{name}.pdf')
     out = AP.FIGURES_OUT / 'png'; out.mkdir(exist_ok=True); missing = []
     for name, w in WIDTH.items():
         if name in FIXED_PNG:
-            shutil.copyfile(AP.ROOT / 'figures_src' / FIXED_PNG[name], out / f'{name}.png')
+            shutil.copyfile(AP.FIGURE_SOURCES / FIXED_PNG[name], out / f'{name}.png')
             continue
         pdf = AP.FIGURES_OUT / f'{name}.pdf'
         if not pdf.exists(): missing.append(name); continue

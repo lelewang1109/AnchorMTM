@@ -14,12 +14,12 @@ Use the following paths under the data directory:
 - Wildfires: `real/wildfire/wildfire.json`.
 - Storms: `real/ERA5_MSLP/ERA5_MSLP_19991117_20000114.nc`. Request hourly mean sea-level pressure (30–75°N, 30°W–40°E, 0.25°) for 17 November 1999 through 14 January 2000 from the Copernicus Climate Data Store. The extra days supply the moving-mean margins. The netCDF variables are `msl`, `valid_time`, `latitude` and `longitude`.
 - PM₂.₅: `raw/pm25_hourly_source.npz`. Prepare the ChinaVis 2021 CAQRA hourly CSVs with `python -m experiments.planar.prepare_pm25_source CSV_DIRECTORY data/raw/pm25_hourly_source.npz`. The regional subset includes a 0.5° interpolation margin.
-- Cylinder: `real/SquareCylinder/SquareCylinder.7z`. See the [preparation commands](../experiments/paper1_suite/README.md) for the archive and extraction.
+- Cylinder: `real/SquareCylinder/SquareCylinder.7z`. See the [preparation commands](../experiments/grid/README.md) for the archive and extraction.
 - Tangaroa: `real/Tangaroa-FAU/`. See the [preparation commands](../experiments/volume3d/README.md) for archive acquisition and the pinned member inventory.
 
 `python scripts/hash_inputs.py` checks the three external planar source files against the recorded SHA-256 values. Set `ANCHORMTM_DATA` when these files are stored elsewhere.
 
-The earlier temporal audit uses a 12-hourly ERA5 series from ARCO-ERA5, NOAA daily OLR and daily CN-Reanalysis PM₂.₅ (DOI 10.57760/sciencedb.35623). Their preparation scripts are `analysis/era5_arco.py`, `analysis/era5_arco_expanded.py`, `tools/fetch_public_scalar.py` and `tools/prepare_cn_pm25.py`.
+The earlier temporal audit uses a 12-hourly ERA5 series from ARCO-ERA5, NOAA daily OLR and daily CN-Reanalysis PM₂.₅ (DOI 10.57760/sciencedb.35623). Their preparation scripts are `experiments/analysis/era5_arco.py`, `experiments/analysis/era5_arco_expanded.py`, `scripts/fetch_public_scalar.py` and `scripts/prepare_cn_pm25.py`.
 
 ## Prepared records
 

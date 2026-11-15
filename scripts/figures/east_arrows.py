@@ -1,7 +1,7 @@
 """Figures 1 and 7: add the upward East arrow to the storm figures (TikZ overlay on the vector figures).
 
-Both figures were laid out by hand in PowerPoint (figures_src/editable/fig01_storms_overview.pptx, Fig7_storms_budget_maps.pptx);
-their PDF exports are figures_src/fig01_storms_overview_base.pdf and figures_src/fig07_storms_budget_maps_base.pdf.
+Both figures were laid out by hand in PowerPoint (data/figures/editable/fig01_storms_overview.pptx, Fig7_storms_budget_maps.pptx);
+their PDF exports are data/figures/fig01_storms_overview_base.pdf and data/figures/fig07_storms_budget_maps_base.pdf.
 Needs tectonic or pdflatex with the standalone and tikz packages.
 Output: output/figures/anchor_storms_overview.pdf, output/figures/anchor_storms_budget_maps.pdf
 Run:  python scripts/figures/east_arrows.py
@@ -11,7 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import anchormtm_paths as AP  # noqa: E402
 
-SRC = AP.ROOT / 'figures_src'
+SRC = AP.FIGURE_SOURCES
 JOBS = [('fig01_east_arrow.tex', 'fig1_east', SRC / 'fig01_storms_overview_base.pdf', 'anchor_storms_overview_original.pdf', 'anchor_storms_overview.pdf'),
         ('fig07_east_arrow.tex', 'fig7_east', SRC / 'fig07_storms_budget_maps_base.pdf', 'anchor_storms_budget_maps_original.pdf', 'anchor_storms_budget_maps.pdf')]
 

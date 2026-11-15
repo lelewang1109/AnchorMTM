@@ -8,7 +8,7 @@ import unittest
 import numpy as np
 from scipy.optimize import linprog
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'analysis'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'experiments/analysis'))
 from certificate_core import (EnumerationLimit, distance_change_error_bound,
                               free_tau, order_tau, prune_to_initial_score)
 import theory
