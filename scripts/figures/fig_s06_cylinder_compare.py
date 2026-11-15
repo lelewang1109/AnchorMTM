@@ -1,7 +1,7 @@
 """Figure S6: Cylinder (102 frames) drawn by the central-tree variant of AnchorMTM (guidance weight 16), TMTM and ST-MTM
 on the same simplified trees.
 
-The three maps are rasters rendered from the Cylinder runs, saved in results/figdata/cylinder_compare/; their time extent
+The three maps are rasters rendered from the Cylinder runs, saved in results/figures/cylinder_compare/; their time extent
 0-162 and layout range 0-1 are fixed in this script. One shared time axis and axis label, method names inside the panels.
 Run:  python scripts/figures/fig_s06_cylinder_compare.py      Output: output/figures/supp_cylinder_compare.{pdf,png}
 """

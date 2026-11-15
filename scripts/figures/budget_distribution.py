@@ -1,11 +1,11 @@
 """Per-frame distributions of AnchorMTM over the merge budget epsilon: loaders and checks shared by the figure scripts.
 
 Inputs (saved results, read only; no algorithm is rerun):
-  results/budget_tradeoff/planar_per_frame/<Storms|Wildfires|Ring>/epsilon_<e>.csv
+  results/supplement/budget_tradeoff/planar_per_frame/<Storms|Wildfires|Ring>/epsilon_<e>.csv
       complete-sequence runs with the main-table configuration; epsilon_0 is the Exact run of Table 1 and the selected
       epsilon (Ring 1%, Wildfires 5%, Storms 10%) is the Balanced run (checked below, value by value).
-  results/budget_tradeoff/volume_per_frame_audit.csv   volumetric default-weight sweep
-  results/planar/balanced_selection.csv   first-quarter validation of the Balanced budget
+  results/supplement/budget_tradeoff/volume_per_frame_audit.csv   volumetric default-weight sweep
+  results/benchmarks/planar/balanced_selection.csv   first-quarter validation of the Balanced budget
 
 Per frame t: NPE_t = max_i |x_i - q_i| / L_world (rendered anchors), NMLE_t = attained fixed-leaf merge error / scalar range,
 SNS_t = scale-normalized stress. Table NPE is the mean of NPE_t over frames.
@@ -28,8 +28,8 @@ from matplotlib.patches import Patch
 
 HERE = Path(__file__).resolve().parent
 PV = AP.RESULTS
-SWEEP = AP.RESULTS / 'budget_tradeoff'
-RATIO = AP.RESULTS / 'planar'
+SWEEP = AP.RESULTS / 'supplement/budget_tradeoff'
+RATIO = AP.RESULTS / 'benchmarks/planar'
 OUT = AP.FIGURES_OUT
 PREV = AP.OUTPUT / 'preview'
 OUT.mkdir(parents=True, exist_ok=True); PREV.mkdir(exist_ok=True)

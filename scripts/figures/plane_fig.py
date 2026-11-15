@@ -1,10 +1,10 @@
 """Position-topology plane (order model): loaders and drawing helpers used by Figure 4.
 
 Inputs (saved, read only):
-  results/figdata/forced_error/<seq>.json        certified boundary and construction (plane_data.py)
-  results/figdata/baseline_orientation/best_mirror.json   TMTM, ST-MTM, OLO (best mirror, NROE);
+  results/figures/forced_error/<seq>.json        certified boundary and construction (plane_data.py)
+  results/figures/baseline_orientation/best_mirror.json   TMTM, ST-MTM, OLO (best mirror, NROE);
                                                      Hilbert, Morton (best orientation, NROE, worst NMLE)
-  results/figdata/frontier/<seq>.json      projection (worst NMLE, NROE)
+  results/figures/frontier/<seq>.json      projection (worst NMLE, NROE)
 Its command-line entry draws auxiliary plane figures that are not in the paper.
 """
 import sys as _sys

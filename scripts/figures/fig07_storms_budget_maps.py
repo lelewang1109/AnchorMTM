@@ -1,7 +1,7 @@
 """Figure 7 (Storms event window): the map panels in a plain layout, for checking the data behind the paper figure.
 
-The five AnchorMTM maps are the rendered images in results/storms_event/assets/; the TMTM and ST-MTM maps come from
-results/storms_event/baseline_maps.npz (window 355-460, common scale -35 to 35 hPa).
+The five AnchorMTM maps are the rendered images in results/figures/storms_event/assets/; the TMTM and ST-MTM maps come from
+results/figures/storms_event/baseline_maps.npz (window 355-460, common scale -35 to 35 hPa).
 The paper figure itself, with its layout, tracked-feature curves and insets, was finished by hand in
 data/figures/editable/fig07_storms_budget_maps.pptx; east_arrows.py builds it from that export.
 Run:  python scripts/figures/fig07_storms_budget_maps.py      Output: output/figures/anchor_storms_budget_maps_panels.{pdf,png,svg}
@@ -16,7 +16,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-O=AP.RESULTS/'storms_event';S=AP.RESULTS/'storms_budget_profiles';A=AP.DATA/'storms_hourly_anomaly'
+O=AP.RESULTS/'figures/storms_event';S=AP.RESULTS/'storms_budget_profiles';A=AP.DATA/'storms_hourly_anomaly'
 E=json.loads((O/'original_position_evidence.json').read_text());sel=[next(x for x in E if x['epsilon']==e) for e in [0,.05,.1,.2]]
 plt.rcParams.update({'font.family':'Times New Roman','mathtext.fontset':'stix','font.size':9,'axes.titlesize':9,'axes.labelsize':9,'xtick.labelsize':8,'ytick.labelsize':8,'pdf.fonttype':42,'svg.fonttype':'none','axes.linewidth':.55})
 f=plt.figure(figsize=(7.15,2.5));canvas=f.add_axes([0,0,1,1]);canvas.set(xlim=(0,1),ylim=(0,1));canvas.axis('off')

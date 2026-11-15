@@ -1,4 +1,4 @@
-"""Figure S5 (Cylinder, central-tree variant): the map and the five snapshots, rendered from results/cylinder_variant/.
+"""Figure S5 (Cylinder, central-tree variant): the map and the five snapshots, rendered from results/figures/cylinder_variant/.
 
 The paper version was finished by hand in data/figures/editable/fig_s05_cylinder_variant.pptx (axis label, tick marks and the
 connectors from the time axis to the snapshots); its export, data/figures/fig_s05_cylinder_variant.pdf, is the file used in the paper.
@@ -18,7 +18,7 @@ from matplotlib.colors import LinearSegmentedColormap,Normalize
 from matplotlib.patches import Rectangle
 from matplotlib import patheffects as pe
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-O=AP.RESULTS/'cylinder_variant';j=json.loads((O/'provenance.json').read_text());z=np.load(O/'render_data.npz');Q=z['Q'];times=z['times'];sel=j['selection'];stages=[20,35,50,75,101];halo=[pe.withStroke(linewidth=1.8,foreground='white')]
+O=AP.RESULTS/'figures/cylinder_variant';j=json.loads((O/'provenance.json').read_text());z=np.load(O/'render_data.npz');Q=z['Q'];times=z['times'];sel=j['selection'];stages=[20,35,50,75,101];halo=[pe.withStroke(linewidth=1.8,foreground='white')]
 plt.rcParams.update({'font.family':'Times New Roman','font.size':9,'axes.labelsize':9,'axes.titlesize':9,'xtick.labelsize':9,'ytick.labelsize':9,'svg.fonttype':'none','pdf.fonttype':42,'savefig.facecolor':'white'})
 cm=LinearSegmentedColormap.from_list('Q_blue',[(0,'#ffffff'),(.2,'#9ecae1'),(.5,'#4292c6'),(1,'#08519c')]);norm=Normalize(0,1,clip=True)
 width=16;n=Q.shape[1];ii=np.arange(n*width);tt=np.clip((ii-width//2)//width,0,n-2);alpha=np.clip((ii-(tt*width+width//2))/(width-1),0,1)

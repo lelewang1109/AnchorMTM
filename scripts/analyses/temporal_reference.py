@@ -3,7 +3,7 @@
 TD sums the displayed motion of matched anchors, so a map that follows real motion has a large TD by construction. The value
 for x = q tells how much displayed motion the data themselves imply along the axis. Volumes: see family_sweep.py.
 Run from the repository root:  python scripts/analyses/temporal_reference.py
-Output: results/figdata/family_sweep/temporal_reference.json
+Output: results/figures/family_sweep/temporal_reference.json
 """
 import sys as _sys
 from pathlib import Path as _Path

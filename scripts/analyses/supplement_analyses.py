@@ -15,27 +15,27 @@ import anchormtm_paths as AP  # noqa: E402
 import glob, importlib.util, json, sys
 from pathlib import Path
 import numpy as np
-HERE = Path(__file__).resolve().parent; sys.path[:0] = [str(HERE), str(AP.ROOT / 'src')]
-import volumes as v5                                                    # noqa: E402  (loaders of the volume runs)
+sys.path.insert(0, str(AP.ROOT / 'src'))
+from experiments.support.order_layout.run import PARAM_FIELDS, TIE
+from scripts.analyses import volumes
 from rgmtm.error_budget import Parameters                                  # noqa: E402
 from rgmtm.order_certificate import budget_order, hierarchy, _parents       # noqa: E402
 from rgmtm.interval_order import width_order, _search                       # noqa: E402
 from rgmtm.unified import Controls, solve_unified_frame                      # noqa: E402
 from rgmtm.framework import interval_costs                                   # noqa: E402
 OUT = AP.OUTPUT / 'analyses' / 'supplement'; FIG = AP.FIGDATA
-PKG = AP.RESULTS / 'layout_records'
-TIE = v5.n1.TIE
+PKG = AP.RESULTS / 'inputs/layout_records'
 BAL = {'Ring': .01, 'Wildfires': .05, 'Storms': .10, 'PM25': .05, 'Cylinder': .01, 'Tangaroa': .09}   # Balanced budgets of Table 1
 
 
 def planar(name):
     m = json.loads((PKG / name / 'metadata.json').read_text()); F = json.loads((PKG / name / 'per_frame_inputs.json').read_text())
-    p = Parameters(**{k: v for k, v in m['parameters'].items() if k in v5.n1.PARAM_FIELDS})
+    p = Parameters(**{k: v for k, v in m['parameters'].items() if k in PARAM_FIELDS})
     return [np.array(f['merge_matrix'], float) for f in F], [np.array(f['reference_q'], float) for f in F], [np.array(f['width_w'], float) for f in F], p, m['scalar_range']
 
 
 def volume(name):
-    d, p, _ = v5.load(name, 'x')
+    d, p, _ = volumes.load(name, 'x')
     return [np.asarray(V, float) for V in d['merge']], [np.asarray(q, float) for q in d['references']], \
            [p.width_scale * np.asarray(m, float) for m in d['measures']], p, d['scalar_range']
 
@@ -106,7 +106,7 @@ def ties():
 
 
 def strict():
-    d, p, feats = v5.load('Cylinder', 'x'); R = d['scalar_range']; L = p.canvas; rows = []
+    d, p, feats = volumes.load('Cylinder', 'x'); R = d['scalar_range']; L = p.canvas; rows = []
     for t, (V, q) in enumerate(zip(d['merge'], d['references'])):
         w = p.width_scale * np.asarray(d['measures'][t], float)
         o = width_order(V, q, w, p, 0., 0., point=budget_order(V, q, L, 0., 0.))['order']
@@ -117,14 +117,14 @@ def strict():
         c = Controls(topology_budget=0., position_budget=(tau + p.extra_budget) / L)
         rows.append(solve_unified_frame(d['centers'][t], d['measures'][t], d['hierarchies'][t], np.asarray(q, float), d['merge'][t], R, c, p,
                                         candidate_orders=[o], previous=prev, previous_q=prevq, matched=mask))
-    s = v5.score(d, p, [r['x'] for r in rows]); s['merge_max'] = float(max(r['measured_topology'] for r in rows))
-    s['nu_strict'] = v5.nu_mean(d, p); print(s); return s
+    s = volumes.score(d, p, [r['x'] for r in rows]); s['merge_max'] = float(max(r['measured_topology'] for r in rows))
+    s['nu_strict'] = volumes.nu_mean(d, p); print(s); return s
 
 
 def motion():
     out = {}
     for name, gpath in (('Tangaroa', FIG / 'volumes/tangaroa_x_gallery.json'), ('Cylinder', FIG / 'volume_gallery/cylinder.json')):
-        d, p, _ = v5.load(name, 'x'); G = json.loads(gpath.read_text()); L = G['canvas']; Q = [np.asarray(q, float) for q in G['q']]; tr = d['tracks']
+        d, p, _ = volumes.load(name, 'x'); G = json.loads(gpath.read_text()); L = G['canvas']; Q = [np.asarray(q, float) for q in G['q']]; tr = d['tracks']
         assert [len(q) for q in Q] == [len(t) for t in tr]
         out[name] = {}
         for key, lab in (('TMTM', 'TMTM'), ('ST-MTM', 'ST-MTM'), ('eps=0', 'Exact'), ('eps=0.1', '10%'), ('q', 'reference')):

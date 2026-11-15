@@ -1,4 +1,4 @@
-"""Tables S5-S8 from results/supplement_analyses (scripts/analyses/supplement_analyses.py).
+"""Tables S5-S8 from results/supplement/layout_checks (scripts/analyses/supplement_analyses.py).
 
 Run:  python scripts/tables/table_s05_s08.py      Output: output/tables/table_cylinder_exact.tex, table_ablation.tex, table_depth.tex, table_motion.tex
 """
@@ -8,7 +8,7 @@ _sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))   # repository ro
 import anchormtm_paths as AP  # noqa: E402
 import json
 from pathlib import Path
-HERE = Path(__file__).resolve().parent; D = AP.RESULTS / 'supplement_analyses'; OUT = AP.TABLES_OUT
+HERE = Path(__file__).resolve().parent; D = AP.RESULTS / 'supplement/layout_checks'; OUT = AP.TABLES_OUT
 rd = lambda n: json.loads((D / n).read_text())
 # Table 1 NPE of AnchorMTM (Exact, Balanced), % of the axis
 NPE = {'Ring': (4.71, 3.95), 'Wildfires': (1.31, 1.16), 'Storms': (3.99, 1.40), 'PM25': (13.90, 4.68), 'Cylinder': (9.18, 1.33), 'Tangaroa': (8.61, 4.65)}

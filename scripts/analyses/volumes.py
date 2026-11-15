@@ -37,7 +37,7 @@ from rgmtm.order_certificate import budget_order, certificate
 
 OUT = AP.OUTPUT / 'analyses' / 'volumes'
 read = lambda p: json.loads(Path(p).read_text())
-FOLDER = {name: AP.RESULTS / 'volume_inputs' / name.lower() for name in ('Tangaroa', 'Cylinder')}
+FOLDER = {name: AP.RESULTS / 'inputs/volume_inputs' / name.lower() for name in ('Tangaroa', 'Cylinder')}
 SHAPE = {'Tangaroa': (120, 180, 300), 'Cylinder': (48, 64, 135)}                           # z, y, x (x fastest; checked)
 BOX = {'Tangaroa': [(-.35, .65), (-.3, .3), (-.5, -.3)], 'Cylinder': [(-2.450261780104711, 20.), (-4., 4.), (0., 6.)]}
 

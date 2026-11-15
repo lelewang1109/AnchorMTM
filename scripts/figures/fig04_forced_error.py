@@ -5,7 +5,7 @@
       tree does not force, and its share is printed per row;
   (b) the plane for the budget alone (bound envelope, AnchorMTM, projection), each panel scaled to its own
       bound, so the curves fill the panels.
-Data: results/figdata/planar_forced_error, forced_error, baseline_orientation, reference_direction and volumes
+Data: results/figures/planar_forced_error, forced_error, baseline_orientation, reference_direction and volumes
 (through planar_forced_error.series and plane_fig); nothing is recomputed.
 Run:  python scripts/figures/fig04_forced_error.py      Output: output/figures/forced_plane.{pdf,png}
 """

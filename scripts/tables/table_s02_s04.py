@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import anchormtm_paths as paths
 
 FAMILY = paths.FIGDATA / "family_sweep"
-METRICS = paths.RESULTS / "metrics_n1c"
+METRICS = paths.RESULTS / "supplement/temporal_metrics"
 FAMILY_ROWS = [
     ("reference", r"Reference, $x=q$", "--", "--", "--"),
     (

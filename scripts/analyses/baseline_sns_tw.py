@@ -14,7 +14,7 @@ STORED, if given, is the baseline_npe folder of the original run: its anchors ar
 (on Storms the rerun of ST-MTM differs slightly from the stored run over 744 temporally chained frames; Table 1 uses the stored one).
 NAME is Ring, Wildfires, Storms or Gaussian. Needs numpy, scipy, osqp, clarabel, threadpoolctl, netCDF4.
 Check: the recomputed NPE must equal the NPE of Table 1 (printed as PASS/FAIL).
-The bundled results/baseline_metrics/<NAME>.json are the outputs of this script.
+The bundled results/benchmarks/baseline_metrics/<NAME>.json are the outputs of this script.
 """
 import sys as _sys
 from pathlib import Path as _Path

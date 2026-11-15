@@ -15,7 +15,7 @@ Checks before any number is reported:
   * r = 0.95 reproduces the stored per-frame NROE (results/final_performance.json) to 1e-9.
 
 Run from the repository root:  python scripts/analyses/stmtm_threshold.py [Storms OLR PM2.5 Ring]
-Output: results/figdata/stmtm_threshold20261106/results.json (appended per sequence); best_mirror.py reads it.
+Output: results/figures/stmtm_threshold20261106/results.json (appended per sequence); best_mirror.py reads it.
 """
 import sys as _sys
 from pathlib import Path as _Path

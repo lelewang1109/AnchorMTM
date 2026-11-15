@@ -43,7 +43,7 @@ def main():
     data = args.prepared.resolve()
     O = args.output.resolve()
     O.mkdir(parents=True, exist_ok=True)
-    dataset = paths.RESULTS / "volume_inputs/cylinder"
+    dataset = paths.RESULTS / "inputs/volume_inputs/cylinder"
     F = json.loads((dataset / "features.json").read_text())
     oldp = json.loads((dataset / "parameters.json").read_text())
     coords = np.load(data / "coordinates.npz", allow_pickle=False)

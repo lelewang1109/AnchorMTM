@@ -29,6 +29,16 @@ python scripts/check_submission.py /path/to/paper-source --figures
 
 The last command compares the regenerated PNGs against the paper source directory. On the validation machine, 13 figures matched pixel for pixel. Figure S7 had a mean absolute RGB difference of 0.218 on a scale of 255.
 
+The inputs to the figure and table scripts are grouped under `results/`.
+
+| Directory | Contents |
+| --- | --- |
+| [`inputs/`](results/inputs) | Per-frame inputs, layouts, and prepared volume features |
+| [`benchmarks/`](results/benchmarks) | Planar and hourly PM₂.₅ measurements, baseline scores, and space-filling curves |
+| [`supplement/`](results/supplement) | Controlled checks, budget sweeps, temporal metrics, and layout checks |
+| [`figures/`](results/figures) | Plotting data and rendered panels for the case figures |
+| [`paper_tables/`](results/paper_tables) | LaTeX tables from the submitted paper, used for comparison |
+
 ## Planar experiments
 
 Use the [dataset inputs](data/README.md) and build the TTK adapter. CMake, Ninja and a C++ compiler with OpenMP are required.
@@ -47,7 +57,7 @@ The planar benchmark uses Clarabel for AnchorMTM's capped placement QP. `--solve
 
 ## Volume layouts and supplementary analyses
 
-The prepared feature data, tracks, merge matrices and baseline anchors in `results/volume_inputs/` support layout recomputation without the original volumes.
+The prepared feature data, tracks, merge matrices and baseline anchors in `results/inputs/volume_inputs/` support layout recomputation without the original volumes.
 
 ```sh
 python scripts/analyses/volumes.py run Cylinder x

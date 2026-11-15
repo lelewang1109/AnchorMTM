@@ -1,8 +1,8 @@
 """Figure 5: feature positions on Tangaroa and Cylinder drawn by TMTM, ST-MTM and AnchorMTM, with the reference in every panel.
 
-Data (read only): results/figdata/volume_gallery/{tangaroa,cylinder}.json (volume_gallery_data.py: displayed positions of
+Data (read only): results/figures/volume_gallery/{tangaroa,cylinder}.json (volume_gallery_data.py: displayed positions of
 TMTM, ST-MTM and AnchorMTM at eps = 0, 5, 20% on the same features, references q, canvas), with Tangaroa along the
-streamwise x axis from results/figdata/volumes/tangaroa_x_gallery.json (volumes.py).
+streamwise x axis from results/figures/volumes/tangaroa_x_gallery.json (volumes.py).
 Every axis, including the colour bar, labels both of its ends.
 Run:  python scripts/figures/fig05_volume_positions.py      Output: output/figures/volume_gallery.{pdf,png}
 """

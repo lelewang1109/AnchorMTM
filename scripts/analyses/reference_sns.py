@@ -5,7 +5,7 @@ positions against support-centroid distances, with the optimal scale, averaged o
 Also rescored: ST-MTM from its stored anchors, as a check against Table 1.
 Usage (repository root):  python scripts/analyses/reference_sns.py INPUTS OUT.json
 INPUTS holds <name>/preparation and <name>/baseline_npe for each sequence (not bundled).
-Bundled output: results/supplement_analyses/reference_sns.json
+Bundled output: results/supplement/layout_checks/reference_sns.json
 """
 import sys as _sys
 from pathlib import Path as _Path

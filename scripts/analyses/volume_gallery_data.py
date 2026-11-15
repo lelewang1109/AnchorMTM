@@ -2,12 +2,12 @@
 
 AnchorMTM, eps in {0, 2, 5, 10, 20}%: rerun of experiments/support/frontier/run.py (width-aware orders + capped QP, default
 configuration), checked against the stored E_pool / E_inf / NMLE_max of figdata/frontier/<name>.json, which equal
-the volumetric budget sweep (results/budget_tradeoff/volume_curve_metrics.csv).
+the volumetric budget sweep (results/supplement/budget_tradeoff/volume_curve_metrics.csv).
 Native TMTM and ST-MTM: saved anchors of the implementations of the published methods on the same features
 (TMTM: results/volume3d/... and paper1_suite/...; ST-MTM: results/stmtm_completion20261026/...),
 each in the global mirror with the lower mean displacement (see best_mirror.py).
 Run from the repository root:  python scripts/analyses/volume_gallery_data.py [Tangaroa Cylinder]
-Output: results/figdata/volume_gallery/<name>.json
+Output: results/figures/volume_gallery/<name>.json
 """
 import sys as _sys
 from pathlib import Path as _Path

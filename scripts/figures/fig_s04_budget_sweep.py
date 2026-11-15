@@ -1,6 +1,6 @@
 """Figure S4: the merge budget sampled finely on Ring, Storms and Wildfires.
 
-Data (read only): results/budget_tradeoff/planar_per_frame/<seq>/epsilon_<eps>.csv, per-frame records of AnchorMTM at
+Data (read only): results/supplement/budget_tradeoff/planar_per_frame/<seq>/epsilon_<eps>.csv, per-frame records of AnchorMTM at
 14-21 budgets (columns NPE = worst displacement of the frame / L, SNS, topology_max = attained merge error of the frame /
 scalar range). At 0, 1, 2, 5, 10, 20% they reproduce Fig. 6 (checked: frame means and shares of frames with positive
 merge error). Gaussian is omitted: no frame has a conflict. TW is not drawn: it is defined on only 1, 4 and 11 frames of
@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import figure_common as v
 
 HERE = Path(__file__).resolve().parent
-DATA = AP.RESULTS / 'budget_tradeoff/planar_per_frame'
+DATA = AP.RESULTS / 'supplement/budget_tradeoff/planar_per_frame'
 OUT = AP.FIGURES_OUT
 SEQ = [('Ring', 'Ring (2D)'), ('Storms', 'Storms (2D)'), ('Wildfires', 'Wildfires (2D)')]
 BASE = {'Ring': (17.56, 24.63), 'Storms': (57.53, 45.79), 'Wildfires': (22.80, 31.80)}   # NPE (%) of TMTM, ST-MTM, Table 1

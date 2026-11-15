@@ -10,7 +10,7 @@ reading the experiment code without changing it.
 Shortcut (exact): if Theorem B equals the exact-tree nu* (tie 0) on a frame, Theorem C equals
 it too (B <= C <= optimum <= nu*(T)), so C is evaluated only on frames where B < nu*(T).
 Run from the repository root:  python scripts/analyses/bound_allowance.py [frames]
-Output: results/figdata/bound_allowance20261105/{tangaroa,cylinder}_direction.json;
+Output: results/figures/bound_allowance20261105/{tangaroa,cylinder}_direction.json;
         argument 'frames': cylinder_frames.json (per-frame bounds, exhaustive check of frames 58 and 62)
 """
 import sys as _sys

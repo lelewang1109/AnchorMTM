@@ -3,7 +3,7 @@
 Data: the per-frame records of the budget sweep (planar_per_frame_recomputed.csv, volume_per_frame_recomputed.csv): worst
 displacement E_max per frame and the attained merge error, for every budget. If that package is present (PKG, or the
 environment variable ANCHOR_PKG01), the summary is computed from it and written to output/budget_response_summary.json;
-otherwise the saved summary is drawn. Tangaroa along the streamwise x axis: results/figdata/volumes/tangaroa_x_budget.json.
+otherwise the saved summary is drawn. Tangaroa along the streamwise x axis: results/figures/volumes/tangaroa_x_budget.json.
 Encoding: for each sequence, the median, the 90th percentile and the worst frame of E_max over the budget, plus the mean
 (= NPE) as a dashed line; the bar row gives the share of frames whose attained merge error is positive.
 Run:  python scripts/figures/fig06_budget_response.py      Output: output/figures/budget_response.{pdf,png}
@@ -22,7 +22,7 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 import figure_common as v
 
-PKG = Path(os.environ.get('ANCHOR_PKG01', AP.RESULTS / 'budget_sweep'))
+PKG = Path(os.environ.get('ANCHOR_PKG01', AP.RESULTS / 'inputs/layout_records'))
 HERE = Path(__file__).resolve().parent
 SUMMARY = AP.FIGDATA / 'budget_response/summary.json'
 OUT = AP.FIGURES_OUT

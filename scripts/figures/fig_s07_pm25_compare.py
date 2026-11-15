@@ -1,8 +1,8 @@
 """Figure S7: the hourly PM2.5 episode of the case study drawn by TMTM, ST-MTM and AnchorMTM (5%).
 
 Same window (frames 504-636, 22-27 January 2017), same colour map and 0-400 ug/m3 range as the case figure.
-Inputs: AnchorMTM map from results/pm25_hourly/figure_cache.npz; TMTM and ST-MTM same-window columns from the baseline profiles
-(results/pm25_baseline_profiles).
+Inputs: AnchorMTM map from results/benchmarks/pm25_hourly/figure_cache.npz; TMTM and ST-MTM same-window columns from the baseline profiles
+(results/figures/pm25_baseline_profiles).
 Time ticks inside each panel, the meaning of each vertical axis under its title, province borders on the snapshots.
 Run:  python scripts/figures/fig_s07_pm25_compare.py      Output: output/figures/supp_pm25_compare.{pdf,png}
 """
@@ -21,8 +21,8 @@ from matplotlib.colors import LinearSegmentedColormap, Normalize
 import figure_common as v
 
 ROOT = AP.ROOT
-PKG = AP.RESULTS / 'pm25_baseline_profiles'
-CASE = AP.RESULTS / 'pm25_hourly'
+PKG = AP.RESULTS / 'figures/pm25_baseline_profiles'
+CASE = AP.RESULTS / 'benchmarks/pm25_hourly'
 OUT = AP.FIGURES_OUT
 
 

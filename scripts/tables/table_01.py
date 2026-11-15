@@ -1,12 +1,12 @@
 """Table 1: SNS, TW and NPE of every map on the six sequences, assembled from the result files and checked against the paper.
 
 Sources (all in results/):
-  planar/<seq>/{Exact,Balanced}/summary.json      AnchorMTM on Ring, Wildfires, Storms
-  baseline_metrics/<seq>.json                               TMTM and ST-MTM on Ring, Wildfires, Storms (scripts/analyses/baseline_sns_tw.py)
-  space_filling/comparison_with_space_filling.csv           Hilbert and Morton on Ring, Wildfires, Storms
-  pm25_hourly/comparison_metrics.json                       every map on hourly PM2.5
-  figdata/volumes/{cylinder,tangaroa}_x.json            every map on the two volumes (scripts/analyses/volumes.py), except
-  metrics_n1c/{cylinder,tangaroa}.json                      SNS and TW (k = 1) of TMTM and ST-MTM on the volumes
+  benchmarks/planar/<seq>/{Exact,Balanced}/summary.json      AnchorMTM on Ring, Wildfires, Storms
+  benchmarks/baseline_metrics/<seq>.json                               TMTM and ST-MTM on Ring, Wildfires, Storms (scripts/analyses/baseline_sns_tw.py)
+  benchmarks/space_filling/comparison_with_space_filling.csv           Hilbert and Morton on Ring, Wildfires, Storms
+  benchmarks/pm25_hourly/comparison_metrics.json                       every map on hourly PM2.5
+  figures/volumes/{cylinder,tangaroa}_x.json            every map on the two volumes (scripts/analyses/volumes.py), except
+  supplement/temporal_metrics/{cylinder,tangaroa}.json                      SNS and TW (k = 1) of TMTM and ST-MTM on the volumes
 Output: output/tables/table1_values.csv and output/tables/table1_rows.tex (bold = best, underline = second, among the merge tree maps;
 TW is not ranked on Ring, Wildfires and Storms, which have too few eligible frames; the curves are not ranked).
 Run:  python scripts/tables/table_01.py
@@ -34,23 +34,23 @@ PAPER = {
 def load():
     T = {}
     curves = {}
-    with open(R / 'space_filling/comparison_with_space_filling.csv') as f:
+    with open(R / 'benchmarks/space_filling/comparison_with_space_filling.csv') as f:
         for r in csv.DictReader(f):
             if r['Method'] in ('Hilbert', 'Morton'): curves[(r['Dataset'], r['Method'])] = (float(r['SNS']), float(r['TW']))
     for s in PLANAR:
-        b = json.loads((R / f'baseline_metrics/{s}.json').read_text())['baselines']
+        b = json.loads((R / f'benchmarks/baseline_metrics/{s}.json').read_text())['baselines']
         row = {m: (curves[(s, m)]) for m in ('Hilbert', 'Morton')}
         for m in ('TMTM', 'ST-MTM'): row[m] = tuple(b[m][k] for k in ('SNS', 'TW', 'NPE'))
         for m in ('Exact', 'Balanced'):
-            d = json.loads((R / f'planar/{s}/{m}/summary.json').read_text()); row[m] = (d['SNS'], d['TW'], d['NPE'])
+            d = json.loads((R / f'benchmarks/planar/{s}/{m}/summary.json').read_text()); row[m] = (d['SNS'], d['TW'], d['NPE'])
         T[s] = row
-    p = json.loads((R / 'pm25_hourly/comparison_metrics.json').read_text())
+    p = json.loads((R / 'benchmarks/pm25_hourly/comparison_metrics.json').read_text())
     T['PM2.5'] = {m: tuple(p[k][q] for q in (('SNS', 'TW') if m in ('Hilbert', 'Morton') else ('SNS', 'TW', 'NPE')))
                   for m, k in (('Hilbert', 'Hilbert'), ('Morton', 'Morton'), ('TMTM', 'TMTM'), ('ST-MTM', 'ST-MTM'), ('Exact', 'Exact'), ('Balanced', '5%'))}
     for s, f in VOLUMES.items():
-        v = json.loads((R / f'figdata/volumes/{f}.json').read_text())
+        v = json.loads((R / f'figures/volumes/{f}.json').read_text())
         row = {m: (v['curves'][m]['SNS'], v['curves'][m]['TW']) for m in ('Hilbert', 'Morton')}
-        n1c = json.loads((R / f'metrics_n1c/{s.lower()}.json').read_text())['baselines']
+        n1c = json.loads((R / f'supplement/temporal_metrics/{s.lower()}.json').read_text())['baselines']
         for m in ('TMTM', 'ST-MTM'): row[m] = (n1c[m]['SNS'], n1c[m]['TW1'], v['baselines'][m]['NPE'])   # SNS, TW as in metrics_n1c (k = 1)
         for m in ('Exact', 'Balanced'): row[m] = tuple(v['maps'][m][k] for k in ('SNS', 'TW', 'NPE'))
         T[s] = row

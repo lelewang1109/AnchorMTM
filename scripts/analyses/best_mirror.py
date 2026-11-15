@@ -17,7 +17,7 @@ choice because the reference defines its axis.
   space-filling curves (figdata/space_filling20261105, per orientation): orientation with the lowest mean NROE
 
 The stmtm_threshold and space_filling inputs are written by stmtm_threshold.py and the space-filling experiment; they are
-not bundled. Run:  python scripts/analyses/best_mirror.py   ->  results/figdata/baseline_orientation/best_mirror.json
+not bundled. Run:  python scripts/analyses/best_mirror.py   ->  results/figures/baseline_orientation/best_mirror.json
 """
 import sys as _sys
 from pathlib import Path as _Path

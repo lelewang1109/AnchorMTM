@@ -23,6 +23,6 @@ The earlier temporal audit uses a 12-hourly ERA5 series from ARCO-ERA5, NOAA dai
 
 ## Prepared records
 
-`results/layout_records/` stores the labeled pairwise merge heights, spatial anchors, leaf widths and per-budget layouts used for the bounds and ablation analyses. The `V`, `q` and `w` arrays in each `per_frame_inputs.npz` are split by the frame offsets in the archive. `metadata.json` gives the canvas and merge-height scale. The Tangaroa basin-depth audit uses the motion axis. The main volume comparison uses the streamwise x-axis.
+`results/inputs/layout_records/` stores the labeled pairwise merge heights, spatial anchors, leaf widths and per-budget layouts used for the bounds and ablation analyses. The `V`, `q` and `w` arrays in each `per_frame_inputs.npz` are split by the frame offsets in the archive. `metadata.json` gives the canvas and merge-height scale. The Tangaroa basin-depth audit uses the motion axis. The main volume comparison uses the streamwise x-axis.
 
-`results/volume_inputs/` stores extracted leaf geometry, merge heights, tracks and baseline positions. `results/storms_event/` and `results/pm25_baseline_profiles/` contain the baseline profiles used in the case figures.
+`results/inputs/volume_inputs/` stores extracted leaf geometry, merge heights, tracks and baseline positions. `results/figures/storms_event/` and `results/figures/pm25_baseline_profiles/` contain the baseline profiles used in the case figures.

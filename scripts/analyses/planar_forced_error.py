@@ -1,12 +1,12 @@
 """Position-topology plane on the planar sequences, from the per-frame inputs of the layout records (data of Fig. 4).
 
-Input: results/layout_records: for every frame the merge matrix V, the references q and the
+Input: results/inputs/layout_records: for every frame the merge matrix V, the references q and the
 widths w in fixed canvas units, with canvas L and scalar range R (metadata.json).
 Same computation as plane_data.py (bound = mean over frames of max(flattened, chain) certificate at allowance
 eps*R, suffix-max envelope; construction = budgeted midpoint ordering), without the exhaustive enumeration.
 Check: the strict bound at eps = 0 equals the point bound of the layout records (real_bounds_per_frame.csv) frame by frame.
 Projection: the reference-sorted order, NROE 0, worst merge error max_t delta*(sorted order) / R.
-Run:  python scripts/analyses/planar_forced_error.py [Ring Wildfires Storms PM25]   ->  results/figdata/planar_forced_error/<name>.json
+Run:  python scripts/analyses/planar_forced_error.py [Ring Wildfires Storms PM25]   ->  results/figures/planar_forced_error/<name>.json
 """
 import sys as _sys
 from pathlib import Path as _Path
@@ -22,7 +22,7 @@ ob = importlib.util.module_from_spec(spec); spec.loader.exec_module(ob)
 from rgmtm.framework import merge_costs
 from rgmtm.order_certificate import certificate, chain_certificate, budget_order
 
-PKG = Path(AP.RESULTS / 'layout_records')
+PKG = Path(AP.RESULTS / 'inputs/layout_records')
 OUT = AP.OUTPUT / 'analyses' / 'planar_forced_error'
 BOUND_EPS = sorted({0., 1e-6} | set(np.geomspace(1e-4, 1, 49).tolist()))
 LABELLED = [0., .01, .02, .05, .1, .2, .5, 1.]

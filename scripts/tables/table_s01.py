@@ -1,11 +1,11 @@
 """Table S1: parameter settings and runtime of AnchorMTM (Balanced) on Ring, Wildfires, Storms and PM2.5, checked against the paper.
 
 Sources (all in results/):
-  planar/anchor_parameters.csv     N_r (L_pixels) and s_w (width_scale) on Ring, Wildfires, Storms
-  planar/anchor_runtime.csv        t_opt and t_total of the Balanced runs (single runs, no tree cache)
-  pm25_hourly/anchor_parameters.json        s_w on PM2.5
-  pm25_hourly/timing.json                   t_opt and t_total on PM2.5
-  pm25_hourly/figure_cache.npz              N_r on PM2.5 (rows of the map raster)
+  benchmarks/planar/anchor_parameters.csv     N_r (L_pixels) and s_w (width_scale) on Ring, Wildfires, Storms
+  benchmarks/planar/anchor_runtime.csv        t_opt and t_total of the Balanced runs (single runs, no tree cache)
+  benchmarks/pm25_hourly/anchor_parameters.json        s_w on PM2.5
+  benchmarks/pm25_hourly/timing.json                   t_opt and t_total on PM2.5
+  benchmarks/pm25_hourly/figure_cache.npz              N_r on PM2.5 (rows of the map raster)
 The volume values in the table note (s_w, gaps, slack and times on Tangaroa and Cylinder) are not assembled here.
 Run:  python scripts/tables/table_s01.py      Output: output/tables/table_parameters_runtime.csv
 """
@@ -25,12 +25,12 @@ DIGITS = (0, 5, 3, 3)
 
 def load():
     T = {}
-    par = {r['Dataset']: r for r in csv.DictReader(open(R / 'planar/anchor_parameters.csv'))}
-    run = {r['Dataset']: r for r in csv.DictReader(open(R / 'planar/anchor_runtime.csv')) if r['Method'] == 'AnchorMTM Balanced'}
+    par = {r['Dataset']: r for r in csv.DictReader(open(R / 'benchmarks/planar/anchor_parameters.csv'))}
+    run = {r['Dataset']: r for r in csv.DictReader(open(R / 'benchmarks/planar/anchor_runtime.csv')) if r['Method'] == 'AnchorMTM Balanced'}
     for s in COLS[:3]:
         T[s] = (int(par[s]['L_pixels']), float(par[s]['width_scale']), float(run[s]['t_opt']), float(run[s]['t_total']))
-    p = json.loads((R / 'pm25_hourly/anchor_parameters.json').read_text()); t = json.loads((R / 'pm25_hourly/timing.json').read_text())
-    T['PM2.5'] = (np.load(R / 'pm25_hourly/figure_cache.npz')['map'].shape[0], p['width_scale'], t['t_opt'], t['t_total'])
+    p = json.loads((R / 'benchmarks/pm25_hourly/anchor_parameters.json').read_text()); t = json.loads((R / 'benchmarks/pm25_hourly/timing.json').read_text())
+    T['PM2.5'] = (np.load(R / 'benchmarks/pm25_hourly/figure_cache.npz')['map'].shape[0], p['width_scale'], t['t_opt'], t['t_total'])
     return T
 
 

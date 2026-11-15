@@ -11,7 +11,7 @@ Order model (NROE), the only fidelity in which every compared map can be measure
   check        the saved order_budget20261027 sweep is reproduced (tie = 1e-7, nine allowances).
 Experiment code and saved results are only read. Inputs: results/ (as for experiments/support/order_budget).
 
-Run:  python scripts/analyses/plane_data.py [Storms ...]   ->  results/figdata/forced_error/<sequence>.json
+Run:  python scripts/analyses/plane_data.py [Storms ...]   ->  results/figures/forced_error/<sequence>.json
 """
 import sys as _sys
 from pathlib import Path as _Path
