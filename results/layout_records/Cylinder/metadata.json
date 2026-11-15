@@ -1,0 +1,31 @@
+{
+  "dataset": "Cylinder",
+  "frames": 102,
+  "scalar_range": 1.0,
+  "parameters": {
+    "canvas": 22.45026178010471,
+    "width_scale": 2.7066770085967293e-05,
+    "gap": 0.07483420593368237,
+    "rho": 0.5,
+    "extra_budget": 0.18708551483420593,
+    "motion_weight": 0.5,
+    "eccentricity_weight": 0.1,
+    "reference_weight": 4.0,
+    "geometry_weight": 1.0,
+    "normalize_terms": true,
+    "temporal_mode": "residual",
+    "canvas_origin": -2.450261780104711,
+    "reference_budget": null,
+    "motion_fraction": null,
+    "compact_tiebreak": false
+  },
+  "label_convention": "labels contains original leaf sample IDs; order entries are per-frame indices into labels/V/q/w/x",
+  "semantics": "join-tree internal scalar: diagonal=extremum values, off-diagonal=labelled LCA merge values; q,w in fixed canvas units; no per-frame normalization",
+  "available_result_budgets": [
+    0,
+    0.02,
+    0.05,
+    0.1,
+    0.2
+  ]
+}

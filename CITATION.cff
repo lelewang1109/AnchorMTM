@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Please cite the AnchorMTM paper when using this software."
+type: software
+title: "AnchorMTM: Spatially Anchored Merge Tree Maps with Topology–Position Tradeoffs"
+repository-code: "https://github.com/lelewang1109/AnchorMTM"
+authors:
+  - family-names: Wang
+    given-names: Lele
+  - family-names: Dong
+    given-names: Yu
+  - family-names: Meng
+    given-names: Yuxiang
+  - family-names: Li
+    given-names: Guan
+  - family-names: Wang
+    given-names: Zhe
+  - family-names: Shan
+    given-names: Guihua
+  - family-names: Liu
+    given-names: Jun

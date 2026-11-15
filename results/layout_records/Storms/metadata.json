@@ -1,0 +1,32 @@
+{
+  "dataset": "Storms",
+  "frames": 744,
+  "scalar_range": 70.80611419677734,
+  "parameters": {
+    "canvas": 74.40184530149129,
+    "width_scale": 0.011702773488762122,
+    "gap": 0.3100076887562137,
+    "rho": 0.5,
+    "extra_budget": 0.6200153775124274,
+    "motion_weight": 0.5,
+    "eccentricity_weight": 0.1,
+    "reference_weight": 4.0,
+    "geometry_weight": 1.0,
+    "normalize_terms": true,
+    "temporal_mode": "residual",
+    "canvas_origin": -26.627775826943235,
+    "reference_budget": null,
+    "motion_fraction": null,
+    "compact_tiebreak": false
+  },
+  "label_convention": "per-frame integer indices 0..n-1; index order defines rows/columns of V and entries of q,w,x",
+  "semantics": "join-tree internal scalar: diagonal=extremum values, off-diagonal=labelled LCA merge values; q,w in fixed canvas units; no per-frame normalization",
+  "available_result_budgets": [
+    0,
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.2
+  ]
+}
