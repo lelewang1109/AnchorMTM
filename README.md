@@ -16,7 +16,7 @@ python -m unittest discover -s tests -q
 python scripts/run_all.py
 ```
 
-The last command generates the paper's figures and tables in `output/` and checks the data tables against the paper. It uses the included experiment records and figure sources. See the [reproduction guide](docs/reproduction.md) for running experiments, checking figure exports, and separating measured runtimes from recorded runtimes.
+The last command generates the paper's figures and tables in `output/` and checks the data tables against the paper. It uses the included experiment records and figure sources. The [reproduction guide](docs/reproduction.md) lists the experiment commands, figure checks and the source of the timings in Table S1.
 
 ## Repository layout
 
