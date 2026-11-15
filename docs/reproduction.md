@@ -2,11 +2,17 @@
 
 Run the commands from the repository root in the environment described in the [README](../README.md).
 
+Install the solvers and volume tools before running the full test suite or the dataset experiments.
+
+```sh
+python -m pip install -e '.[solvers,volume3d]'
+python -m unittest discover -s tests -q
+```
+
 ## Figures and tables
 
 ```sh
 python scripts/run_all.py
-python scripts/check_submission.py
 ```
 
 The workflow uses the editable sources and publication exports in `figures_src/`. Figure 2 uses its publication PNG. To export the editable slide again, use `python scripts/figures/fig02_workflow.py SLIDE.pdf` with a PDF export of the slide, or omit the argument when LibreOffice is available. Figures 1 and 7 add their spatial-axis arrows in LaTeX.
@@ -29,7 +35,6 @@ Use the [dataset inputs](../data/README.md) and build the TTK adapter. CMake, Ni
 
 ```sh
 python -m experiments.volume3d.build_native_ttk
-python -m experiments.controlled.run
 python -m experiments.planar.run --dataset Ring
 python -m experiments.planar.run --dataset Wildfires
 python -m experiments.planar.run --dataset Storms

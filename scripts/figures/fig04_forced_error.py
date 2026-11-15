@@ -9,11 +9,9 @@ Data: results/figdata/planar_forced_error, forced_error, baseline_orientation, r
 (through planar_forced_error.series and plane_fig); nothing is recomputed.
 Run:  python scripts/figures/fig04_forced_error.py      Output: output/figures/forced_plane.{pdf,png}
 """
-import sys as _sys
-from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))   # repository root
-import anchormtm_paths as AP  # noqa: E402
-import json, os
+import json
+import math
+import os
 from pathlib import Path
 import numpy as np
 import matplotlib
@@ -27,24 +25,29 @@ from planar_forced_error import series as planar_series, OUT, FIG, PANELS, GREY,
 XAXIS = FIG / 'volumes'   # Tangaroa along the streamwise x axis (scripts/analyses/volumes.py)
 
 
-def series(n):
-    f = XAXIS / f'{n.lower()}_x_plane.json'
-    if n != 'Tangaroa' or not f.exists(): return planar_series(n)
-    d = json.loads(f.read_text()); be = 100 * np.array(d['bound']['epsilon']); bv = 100 * np.array(d['bound']['envelope'])
+def streamwise_series(path):
+    d = json.loads(path.read_text())
+    be = 100 * np.array(d['bound']['epsilon'])
+    bv = 100 * np.array(d['bound']['envelope'])
     pts = sorted((100 * b['NMLE_max'], 100 * b['NROE_mean'], b['epsilon']) for b in d['construction']); fx, fy = [], []
     for x, y, e in pts:
         if not fy or y < fy[-1] - 1e-12: fx.append(x); fy.append(y)
     e0 = next((x, y) for x, y, e in pts if e == 0.)
     base = {m: 100 * v['best'] for m, v in d['baselines_NROE'].items()}
     return be, bv, np.array(fx), np.array(fy), e0, base, (100 * d['projection_NMLE_max'], 0.), bv[0]
-_series = series
 
 
-def series(n):
-    # the bound at the data resolution eps0, as the maps use (only Cylinder differs: 12.2% strict, 7.7% at eps0)
-    r = _series(n)
-    if n != 'Cylinder': return r
-    be, bv, fx, fy, e0, base, proj, nu = r
+def series(name):
+    if name == 'Tangaroa':
+        path = XAXIS / 'tangaroa_x_plane.json'
+        if path.exists():
+            return streamwise_series(path)
+    values = planar_series(name)
+    if name != 'Cylinder':
+        return values
+
+    # Use the Cylinder bound at the same merge-height resolution as the maps.
+    be, bv, fx, fy, e0, base, proj, _ = values
     nu0 = 100 * json.loads((FIG / 'reference_direction/cylinder.json').read_text())['key_directions']['stored']['nu_mean']
     return be, np.minimum(bv, nu0), fx, np.minimum(fy, nu0), (e0[0], min(e0[1], nu0)), base, proj, nu0
 
@@ -53,56 +56,48 @@ def series(n):
 NPE = {'Ring': (17.56, 24.63, 4.71), 'Wildfires': (22.80, 31.80, 1.31), 'Storms': (57.53, 45.79, 3.99), 'PM25': (52.41, 55.77, 13.90),
        'Tangaroa': (38.66, 32.86, 8.61), 'Cylinder': (47.69, 51.60, 9.18)}
 OUT = Path(os.environ.get('FIG6_OUT', OUT))
-# Gaussian: its bound is zero, so it needs a separate '0' position on the log axis. The baselines' mean order error
-# comes from package 01; without it the row is left out.
-GAUSS = Path(os.environ.get('FIG6_GAUSS', FIG / 'planar_forced_error/gaussian.json'))
-ZERO = .045   # where a value of 0 is drawn, left of an axis break
-SHOW_GAUSSIAN = False   # not drawn: its bound is 0 and the row says no more than the text of Section 6.2
 
 
 def nice_top(v):
     """Smallest 'round' number >= v, so that the top of an axis can carry a tick label."""
-    import math
     e = 10 ** math.floor(math.log10(v))
     for c in (1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10):
         if c * e >= v * 1.0001: return c * e
 
 ROWS = ['Wildfires', 'Storms', 'Ring', 'PM25', 'Tangaroa', 'Cylinder']   # planar, then volumes; each by nu*
-LAB = dict((n, t) for n, t in PANELS)
+LAB = dict(PANELS)
 
 
-def gaussian():
-    g = json.loads(GAUSS.read_text())
-    return None, None, None, None, (0., g['anchor_nroe']), {'TMTM': g['TMTM'], 'ST-MTM': g['ST-MTM']}, None, g['nu_strict']
-
-
-def forced(ax):
-    xmin, xmax = .1, 60.; rows = ROWS; data = {n: series(n) for n in rows}; dy = .2
+def forced(ax, values):
+    xmin, xmax = .1, 60.
+    dy = .2
     trans = ax.get_yaxis_transform()
     span = lambda v: f'{v[0]:.0f}%' if round(v[0]) == round(v[1]) else f'{v[0]:.0f}\u2013{v[1]:.0f}%'
-    for r, n in enumerate(rows):
-        be, bv, fx, fy, e0, base, proj, nu = data[n]; y = len(rows) - 1 - r; yo, yp = y + dy, y - dy
+    for row, name in enumerate(ROWS):
+        _, _, _, _, e0, baselines, _, nu = values[name]
+        y = len(ROWS) - 1 - row
+        yo, yp = y + dy, y - dy
         ax.add_patch(plt.Rectangle((xmin, y - .4), nu - xmin, .8, facecolor=GREY, edgecolor=HATCH, hatch='////', lw=0, zorder=1))
         ax.plot([nu] * 2, [y - .4, y + .4], color='#333', lw=.6, zorder=2)
-        ax.plot([nu, max(base.values())], [yo, yo], color='#9AA3AB', lw=.8, zorder=3, solid_capstyle='butt')
+        ax.plot([nu, max(baselines.values())], [yo, yo], color='#9AA3AB', lw=.8, zorder=3, solid_capstyle='butt')
         ax.plot(e0[1], yo, 'o', ms=3.6, color=BLUE, mec='white', mew=.4, zorder=6, clip_on=False)
-        ax.plot(base['TMTM'], yo, 's', ms=3.7, color=TM, mec='white', mew=.4, zorder=6)
-        ax.plot(base['ST-MTM'], yo, 'D', ms=3.4, color=ST, mec='white', mew=.4, zorder=7, clip_on=False)
-        t, st, a = NPE[n]
+        ax.plot(baselines['TMTM'], yo, 's', ms=3.7, color=TM, mec='white', mew=.4, zorder=6)
+        ax.plot(baselines['ST-MTM'], yo, 'D', ms=3.4, color=ST, mec='white', mew=.4, zorder=7, clip_on=False)
+        t, st, a = NPE[name]
         ax.plot([nu, max(t, st)], [yp, yp], color='#9AA3AB', lw=.8, ls=(0, (1.5, 1.2)), zorder=3)
         ax.plot(a, yp, 'o', ms=3.6, mfc='white', mec=BLUE, mew=.8, zorder=6)
         ax.plot(t, yp, 's', ms=3.5, mfc='white', mec=TM, mew=.8, zorder=6)
         ax.plot(st, yp, 'D', ms=3.3, mfc='white', mec=ST, mew=.8, zorder=7, clip_on=False)
-        so = sorted(100 * (b - nu) / b for b in base.values()); sp = sorted(100 * (b - nu) / b for b in (t, st))
+        so = sorted(100 * (b - nu) / b for b in baselines.values()); sp = sorted(100 * (b - nu) / b for b in (t, st))
         ax.text(1.03, y, span(so), transform=trans, ha='left', va='center', fontsize=7.6, color='#3F474F')
         ax.text(1.36, y, span(sp), transform=trans, ha='left', va='center', fontsize=7.6, color='#3F474F')
-        print(n, f'nu*={nu:.2f}', 'order', {m: round(v, 2) for m, v in base.items()}, 'share order', [round(v, 1) for v in so], 'share NPE', [round(v, 1) for v in sp])
-    top = len(rows) - .4
+        print(name, f'nu*={nu:.2f}', 'order', {m: round(v, 2) for m, v in baselines.items()}, 'share order', [round(v, 1) for v in so], 'share NPE', [round(v, 1) for v in sp])
+    top = len(ROWS) - .4
     ax.text(1.03, top + .05, 'order', transform=trans, ha='left', va='bottom', fontsize=7.6, color='#3F474F')
     ax.text(1.36, top + .05, 'NPE', transform=trans, ha='left', va='bottom', fontsize=7.6, color='#3F474F')
     ax.text(1.03, top + .62, 'not forced', transform=trans, ha='left', va='bottom', fontsize=7.6, color='#3F474F')
     ax.set_xscale('log'); ax.set_ylim(-.6, top)
-    ax.set_yticks(range(len(rows))); ax.set_yticklabels([LAB[n] for n in rows][::-1], fontsize=8)
+    ax.set_yticks(range(len(ROWS))); ax.set_yticklabels([LAB[n] for n in ROWS][::-1], fontsize=8)
     ax.set_xlim(xmin, xmax); ax.set_xticks([xmin, 1, 10, xmax]); ax.set_xticklabels([f'{xmin:g}', '1', '10', f'{xmax:g}'])
     ax.tick_params(labelsize=8, length=2, pad=1); ax.tick_params(axis='y', length=0)
     ax.xaxis.grid(True, color='#F0F2F4', lw=.5); ax.set_axisbelow(True)
@@ -110,8 +105,8 @@ def forced(ax):
     ax.set_xlabel('error at zero merge error\n(% of axis, log scale)', fontsize=8, labelpad=1)
 
 
-def plane(ax, n, first_row, first_col):
-    be, bv, fx, fy, e0, base, proj, nu = series(n)
+def plane(ax, n, values, first_row, first_col):
+    be, bv, fx, fy, e0, _, proj, _ = values
     top = nice_top(max(bv[0], e0[1]) * 1.08)
     ax.fill_between(be, 0, bv, step='pre', color=GREY, lw=0, zorder=1)
     ax.fill_between(be, 0, bv, step='pre', facecolor='none', edgecolor=HATCH, hatch='////', lw=0, zorder=1)
@@ -132,14 +127,15 @@ def plane(ax, n, first_row, first_col):
 
 def main():
     v.use_times()
+    values = {name: series(name) for name in ROWS}
     fig = plt.figure(figsize=(7.05, 2.7))
     ga = fig.add_gridspec(1, 1, left=.105, right=.30, bottom=.325, top=.865)
-    forced(fig.add_subplot(ga[0, 0]))
+    forced(fig.add_subplot(ga[0, 0]), values)
     gb = fig.add_gridspec(2, 3, left=.487, right=.99, bottom=.325, top=.865, wspace=.42, hspace=.62)
     fig.text(.012, .955, '(a) Forced and chosen error', fontsize=9, ha='left', va='bottom')
     fig.text(.43, .955, '(b) What a merge budget releases', fontsize=9, ha='left', va='bottom')
     for k, n in enumerate(['Ring', 'Wildfires', 'Storms', 'PM25', 'Tangaroa', 'Cylinder']):
-        plane(fig.add_subplot(gb[k // 3, k % 3]), n, k < 3, k % 3 == 0)
+        plane(fig.add_subplot(gb[k // 3, k % 3]), n, values[n], k < 3, k % 3 == 0)
     h = [Patch(facecolor=GREY, edgecolor=HATCH, hatch='////', lw=0, label='unreachable: below the lower bound'),
          Line2D([], [], color='#9AA3AB', lw=.8, label='order error the tree does not force'),
          Line2D([], [], color=BLUE, marker='o', ms=3.4, ls='none', label=r'AnchorMTM order, $\varepsilon=0$'),

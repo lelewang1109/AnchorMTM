@@ -16,28 +16,25 @@ Balanced: the planar rule -- budgets 1..10% in 1% steps on the first ceil(T/4) f
 candidates whose attained merge error stays within their budget; within 0.01 the smaller budget, then the smaller attained error.
 Usage: python scripts/analyses/volumes.py validate | axes | run NAME AXIS   -> output/analyses/volumes/*.json
 """
-import sys as _sys
-from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))   # repository root
-import anchormtm_paths as AP  # noqa: E402
-import importlib.util, json, math, sys, time
+import argparse
+import json
+import math
+import sys
+import time
 from pathlib import Path
+
 import numpy as np
 
-REPO = AP.ROOT; ROOT = AP.ROOT
-sys.path[:0] = [str(REPO), str(ROOT / 'src'), str(ROOT / 'analysis'), str(ROOT)]
-from rgmtm.error_budget import Parameters                     # noqa: E402
-from rgmtm.order_certificate import certificate, budget_order  # noqa: E402
-from rgmtm.interval_order import width_order                   # noqa: E402
-from rgmtm.baselines.space_filling import inverse_order       # noqa: E402
+ROOT = Path(__file__).resolve().parents[2]
+sys.path[:0] = [str(ROOT), str(ROOT / "src")]
+import anchormtm_paths as AP
+from experiments.order_layout import run as order_layout
+from experiments.stmtm_completion.run import geometry
+from rgmtm.baselines.space_filling import inverse_order
+from rgmtm.error_budget import Parameters
+from rgmtm.interval_order import width_order
+from rgmtm.order_certificate import budget_order, certificate
 
-
-def module(name, path):
-    s = importlib.util.spec_from_file_location(name, path); m = importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
-
-
-n1 = module('order_layout_run', ROOT / 'experiments/order_layout/run.py')
-sc = module('stmtm_completion_run', ROOT / 'experiments/stmtm_completion/run.py')
 OUT = AP.OUTPUT / 'analyses' / 'volumes'
 read = lambda p: json.loads(Path(p).read_text())
 FOLDER = {name: AP.RESULTS / 'volume_inputs' / name.lower() for name in ('Tangaroa', 'Cylinder')}
@@ -64,7 +61,7 @@ def load(name, axis):
              hierarchies=[f['hierarchy'] for f in feats], merge=[f['source_lca_values'] for f in feats],
              tracks=saved['tracks'], scalar_range=2.0 if name == 'Tangaroa' else 1.0,
              references=qs, parameters=par)
-    return d, Parameters(**{k: v for k, v in par.items() if k in n1.PARAM_FIELDS}), feats
+    return d, Parameters(**{k: v for k, v in par.items() if k in order_layout.PARAM_FIELDS}), feats
 
 
 def subset(d, n):
@@ -80,7 +77,7 @@ def nu_mean(d, p):
 def score(d, p, xs):
     L, o = p.canvas, p.canvas_origin; qs = [np.asarray(q, float) for q in d['references']]
     u = [(np.asarray(x, float) - o) / L for x in xs]
-    g, _ = sc.geometry(d['centers'], u, d['tracks'], True)
+    g, _ = geometry(d['centers'], u, d['tracks'], True)
     return dict(SNS=float(g['SNS']), TW=float(g['TW1']), NPE=float(np.mean([np.max(np.abs(np.asarray(x) - q)) / L for x, q in zip(xs, qs)])))
 
 
@@ -88,8 +85,8 @@ def anchor(d, p, eps):
     R = d['scalar_range']; L = p.canvas; orders = []
     for t, (V, q) in enumerate(zip(d['merge'], d['references'])):
         w = p.width_scale * np.asarray(d['measures'][t], float)
-        orders.append(width_order(V, q, w, p, eps * R, n1.TIE * R, point=budget_order(V, q, L, eps * R, n1.TIE * R)))
-    rows = n1.capped_sequence(d, orders, R, eps, p)
+        orders.append(width_order(V, q, w, p, eps * R, order_layout.TIE * R, point=budget_order(V, q, L, eps * R, order_layout.TIE * R)))
+    rows = order_layout.capped_sequence(d, orders, R, eps, p)
     s = score(d, p, [r['x'] for r in rows]); s['merge_max'] = 100 * float(max(r['delta'] for r in rows)) / R
     return s, [list(map(float, r['x'])) for r in rows]
 
@@ -109,7 +106,7 @@ def native(name, d, p, feats):
             us.append(a)
         e0 = np.mean(np.concatenate([np.abs(u - q) for u, q in zip(us, qn)])); e1 = np.mean(np.concatenate([np.abs(1 - u - q) for u, q in zip(us, qn)]))
         flip = bool(e1 < e0); us = [1 - u if flip else u for u in us]
-        g, _ = sc.geometry(d['centers'], us, d['tracks'], True)
+        g, _ = geometry(d['centers'], us, d['tracks'], True)
         out[meth] = dict(SNS=float(g['SNS']), TW=float(g['TW1']), NPE=float(np.mean([np.max(np.abs(u - q)) for u, q in zip(us, qn)])), reflected=flip)
     return out
 
@@ -119,7 +116,7 @@ def curves(name, d, p, feats):
     for c in ('Hilbert', 'Morton'):
         t0 = time.perf_counter(); inv = inverse_order(SHAPE[name], c); N = len(inv)
         us = [inv[np.asarray(f['leaf_ids'], int)] / (N - 1) for f in feats]
-        g, _ = sc.geometry(d['centers'], us, d['tracks'], True)
+        g, _ = geometry(d['centers'], us, d['tracks'], True)
         out[c] = dict(SNS=float(g['SNS']), TW=float(g['TW1']), NPE=float(np.mean([np.max(np.abs(u - q)) for u, q in zip(us, qn)])),
                       seconds=time.perf_counter() - t0)
         print(name, c, out[c], flush=True)
@@ -142,7 +139,23 @@ def balanced(name, d, p):
 
 
 def main():
-    OUT.mkdir(parents=True, exist_ok=True); mode = sys.argv[1]
+    parser = argparse.ArgumentParser(description="Recompute paper layouts on the volume data.")
+    commands = parser.add_subparsers(dest="mode", required=True)
+    commands.add_parser("validate", help="Check Exact and ten-percent layouts on both volumes")
+    commands.add_parser("axes", help="Compute the order bounds for each reference axis")
+    for mode, help_text in (
+        ("run", "Run the baseline comparison and select the Balanced budget"),
+        ("figs", "Recompute data for the volume figure panels"),
+    ):
+        command = commands.add_parser(mode, help=help_text)
+        command.add_argument("dataset", choices=tuple(FOLDER))
+        command.add_argument("axis", choices=("x", "y", "z", "motion"))
+    args = parser.parse_args()
+    if getattr(args, "axis", None) == "motion" and args.dataset != "Tangaroa":
+        parser.error("the motion axis is available for Tangaroa")
+
+    OUT.mkdir(parents=True, exist_ok=True)
+    mode = args.mode
     if mode == 'validate':   # must reproduce the stored volume runs along the default references
         for name, axis in (('Cylinder', 'x'), ('Tangaroa', 'motion')):
             d, p, feats = load(name, axis)
@@ -161,10 +174,10 @@ def main():
                 print(name, axis, res[name][axis], flush=True)
         (OUT / 'axes.json').write_text(json.dumps(res, indent=1))
     elif mode == 'figs':      # data of Figs. 6, 7 and 8 for one volume on one axis (same functions as plane_data.py etc.)
-        from itertools import permutations   # noqa: F401  (kept for parity with plane_data.py; no enumeration here)
         from rgmtm.order_certificate import chain_certificate, order_error
         from rgmtm.framework import merge_costs
-        name, axis = sys.argv[2], sys.argv[3]; d, p, feats = load(name, axis); R = d['scalar_range']; L = p.canvas
+        name, axis = args.dataset, args.axis
+        d, p, feats = load(name, axis); R = d['scalar_range']; L = p.canvas
         frames = [(np.asarray(V, float), np.asarray(q, float)) for V, q in zip(d['merge'], d['references'])]
         # Fig. 6: bound envelope (strict, as plane_data.py), budgeted point-model orders, projection, baseline order error
         BOUND_EPS = sorted({0., 1e-8, 1e-7, 1e-6, 1e-5} | set(np.geomspace(1e-4, 1, 121).tolist()))
@@ -197,8 +210,8 @@ def main():
             R_ = R; orders = []
             for t, (V, q) in enumerate(frames):
                 w = p.width_scale * np.asarray(d['measures'][t], float)
-                orders.append(width_order(V, q, w, p, e * R_, n1.TIE * R_, point=budget_order(V, q, L, e * R_, n1.TIE * R_)))
-            rows = n1.capped_sequence(d, orders, R_, e, p)
+                orders.append(width_order(V, q, w, p, e * R_, order_layout.TIE * R_, point=budget_order(V, q, L, e * R_, order_layout.TIE * R_)))
+            rows = order_layout.capped_sequence(d, orders, R_, e, p)
             E = np.array([100 * np.max(np.abs(np.asarray(r['x']) - q)) / L for r, q in zip(rows, qs)]); dm = np.array([r['delta'] / R_ for r in rows])
             for k, v in (('epsilon', e), ('median', float(np.median(E))), ('p90', float(np.percentile(E, 90))), ('max', float(E.max())),
                          ('mean', float(E.mean())), ('used', float(100 * np.mean(dm > 1e-5)))): budget[k].append(v)
@@ -212,7 +225,8 @@ def main():
         (OUT / f'{name.lower()}_{axis}_budget.json').write_text(json.dumps(budget))
         print('saved figs', name, axis)
     elif mode == 'run':
-        name, axis = sys.argv[2], sys.argv[3]; d, p, feats = load(name, axis)
+        name, axis = args.dataset, args.axis
+        d, p, feats = load(name, axis)
         out = dict(dataset=name, axis=axis, canvas=p.canvas, origin=p.canvas_origin, nu_mean=nu_mean(d, p), maps={})
         out['baselines'] = native(name, d, p, feats); out['curves'] = curves(name, d, p, feats)
         eb, sel = balanced(name, d, p); out['balanced_selection'] = sel

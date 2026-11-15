@@ -1,4 +1,4 @@
-"""N4: deterministic sibling-hull overlap, exhaustive orders and independent LPs."""
+"""Enumerate four-leaf orders and verify displacement bounds with independent LPs."""
 
 import argparse
 import csv
