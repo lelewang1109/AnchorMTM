@@ -48,4 +48,4 @@ To trace a paper result, start with [Table 1's script](scripts/tables/table_01.p
 | `results/` | Prepared inputs and measurements used by the paper |
 | `tests/` | Code tests |
 
-Author information is in [CITATION.cff](CITATION.cff). The source and experiment records include material from [ydvislab/AnchorMTM](https://github.com/ydvislab/AnchorMTM).
+Author information is in [CITATION.cff](CITATION.cff).
