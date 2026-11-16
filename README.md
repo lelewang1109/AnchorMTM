@@ -6,6 +6,10 @@ AnchorMTM lays out merge trees from a time-varying scalar field along a fixed sp
 
 [Paper (PDF)](https://github.com/lelewang1109/AnchorMTM/releases/download/paper-artifacts/AnchorMTM-paper.pdf) · [Supplementary material (PDF)](https://github.com/lelewang1109/AnchorMTM/releases/download/paper-artifacts/AnchorMTM-supplement.pdf) · [Supplementary video (MP4)](https://github.com/lelewang1109/AnchorMTM/releases/download/paper-artifacts/AnchorMTM-supplementary-video.mp4)
 
+![Figure 1. AnchorMTM Storms overview, with hourly merge-tree profiles stacked along time.](data/figures/fig01_storms_overview.png)
+
+*Figure 1. AnchorMTM on 744 hourly ERA5 pressure fields from December 1999, with spatial orientation fixed throughout the sequence.*
+
 ## Run a small example
 
 Use Python 3.11 or 3.12. Run these commands from the repository root.
