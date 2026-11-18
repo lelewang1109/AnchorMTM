@@ -4,7 +4,7 @@ Spatially Anchored Merge Tree Maps with Topology–Position Tradeoffs
 
 AnchorMTM lays out merge trees from a time-varying scalar field along a fixed spatial axis. A merge budget controls how far the displayed merge heights may depart from the input trees. The evaluation covers Ring, Wildfires, Storms, hourly PM₂.₅, Cylinder and Tangaroa.
 
-[Read the paper (PDF)](https://lelewang1109.github.io/AnchorMTM/AnchorMTM-paper.pdf) · [Read the supplementary material (PDF)](https://lelewang1109.github.io/AnchorMTM/AnchorMTM-supplement.pdf) · [Watch the supplementary video](https://lelewang1109.github.io/AnchorMTM/video.html) · [Download files](https://github.com/lelewang1109/AnchorMTM/releases/tag/paper-artifacts)
+[Read the paper (PDF)](https://lelewang1109.github.io/AnchorMTM/AnchorMTM-paper.pdf) · [Read the supplementary material (PDF)](https://lelewang1109.github.io/AnchorMTM/AnchorMTM-supplement.pdf) · [Watch the supplementary video](https://lelewang1109.github.io/AnchorMTM/video.html?v=20261118) · [Download files](https://github.com/lelewang1109/AnchorMTM/releases/tag/paper-artifacts)
 
 ![Figure 1. AnchorMTM Storms overview, with hourly merge-tree profiles stacked along time.](data/figures/fig01_storms_overview.png)
 
